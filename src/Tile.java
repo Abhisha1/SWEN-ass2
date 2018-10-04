@@ -24,6 +24,8 @@ public class Tile extends Sprite {
 		
 		private Tile(String imageSrc, float x, float y) {		
 			super(imageSrc, x, y);
+			super.priority = World.LOW_PRIORITY;
+			super.setName("tile");
 		}
 		private Tile(String imageSrc, float x, float y, boolean isDanger, boolean isSolid) {		
 			super(imageSrc, x, y);

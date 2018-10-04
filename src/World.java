@@ -18,14 +18,21 @@ public class World {
 	/** First game level */
 	private Level level1;
 	
+	private Level level2;
+	
+	
 	/** Checks if game is completed */
 	private boolean gameWon = false;
+	
+	public static int LOW_PRIORITY = 0;
+	public static int HIGH_PRIORITY = 1;
 	
 	/** Creates world with a player and corresponding level
      */
 	public World() {
 		buildPlayer();
 		level1 = new Level("assets/levels/0.lvl", player);
+		level2 = new Level("assets/levels/1.lvl", player);
 	}
 	
 
@@ -46,9 +53,14 @@ public class World {
 	public void update(Input input, int delta, GameContainer gc) {
 		// Update all of the sprites in the game
 		player.update(input, delta, player);
-		level1.update(input, delta, gc);
+	//	if (!level1.isComplete) {
+	//		level1.update(input, delta, gc);
+	//	}
+	//	else {
+			level2.update(input, delta, gc);
+	//	}
 		if (gameOver()) {
-			gc.exit();
+		//	gc.exit();
 		}
 		
 	}
@@ -59,7 +71,12 @@ public class World {
      */
 	public void render(Graphics g) {
 		// Draw all of the sprites in the game
-		level1.render(g);
+		//if (!level1.isComplete) {
+			//level1.render(g);
+		//}
+	//	else {
+			level2.render(g);
+		//}
 		for (Life a: player.getLives()) {
 			a.render();
 		}

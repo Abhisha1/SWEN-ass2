@@ -27,13 +27,15 @@ public class Sprite {
 	private boolean isRideable = false;
 	
 	/**Name of object*/
-	private String name;
+	private String name = "sprite";
 	
-	
+	/**bounding box for the sprite*/
 	private BoundingBox boundingBox;
 	
-	
+	/**Rendered image of the sprite*/
 	Image spritePhoto;
+	
+	public int priority = World.LOW_PRIORITY;
 	
 	public Sprite(String imageSrc, float x, float y) {
 		// Every sprite/image drawn on the game container has a photo, and coordinates
@@ -81,6 +83,7 @@ public class Sprite {
 		// Should be called when one sprite makes contact with another. 
 		if (this.getBoundingBox().intersects(other.getBoundingBox())) {
 			Level.isCollision(other);
+			Level.isRiding(other);
 		}
 	}
 	public float getXLocation() {
@@ -95,6 +98,7 @@ public class Sprite {
 	public void setXLocation(float x) {
 		// sets x coordinate value
 			this.xLocation = x;
+			this.boundingBox.setX(x);
 	}
 	public void setSolid(boolean isSolid) {
 		this.isSolid = isSolid;
@@ -111,9 +115,13 @@ public class Sprite {
 	public boolean getRideable() {
 		return this.isRideable;
 	}
+	public boolean getSolid() {
+		return this.isSolid;
+	}
 	public void setYLocation(float y) {
 		// sets y coordinate value
 			this.yLocation = y;
+			this.boundingBox.setY(y);
 	}
 	public void setName(String name) {
 		// sets y coordinate value

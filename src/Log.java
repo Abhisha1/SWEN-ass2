@@ -1,7 +1,5 @@
 
 public class Log extends Rideable{
-	private static boolean isVehicle = false;
-	private static boolean isDanger = false;
 	private static boolean isSolid = false;
 	
 	private static float longLogRate = 0.07f;

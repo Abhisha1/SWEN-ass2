@@ -26,7 +26,6 @@ public class Life extends Sprite{
 			player.getLives().remove(livesCount-1);
 			livesCount--;
 			player.resetPlayer();
-			System.out.println(livesCount);
 		}
 	}
 }

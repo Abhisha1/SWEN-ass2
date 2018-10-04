@@ -4,11 +4,12 @@ public class Rideable extends Movable {
 	public Rideable(float rate, float x, float y, String imageAddress, boolean moveRight) {
 		super(rate, x, y, imageAddress, moveRight); 
 		super.setRideable(true);
+		super.setName("rideable");
 		
 	}
 	
 	public void pushPlayer(Player player) {
-		
 	}
+	
 
 }

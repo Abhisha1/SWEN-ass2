@@ -8,6 +8,7 @@ public class Movable extends Sprite{
 		super(imageAddress, x, y);
 		this.rate = rate;
 		this.moveToRight = moveRight;
+		super.priority = World.HIGH_PRIORITY;
 	}
 	
 	public void move(int delta) {

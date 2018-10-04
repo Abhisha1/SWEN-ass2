@@ -1,9 +1,12 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
+
+import java.util.Collections;
 /**
  * Where each stage/level of game is created.
  * Handles initialization, input and rendering of level
@@ -11,12 +14,11 @@ import org.newdawn.slick.Input;
 
 public class Level {
 	/** Has player completed level*/
-	private boolean isComplete = false;
+	public boolean isComplete = false;
 	
 	private Tile tile;
 	private static Player player;
 	
-	private static boolean isHit = false;
 	
 	/** All rendered images in level*/
 	ArrayList<Sprite> sprites = new ArrayList<Sprite>();
@@ -26,6 +28,7 @@ public class Level {
 	
 	/**Data that controls the initialising of the level background*/
 	Instruction levelInstructions;
+	
 	
 	/** Creates the level
      * @param instructionFileAddress file path name which contains level instructions.
@@ -48,16 +51,16 @@ public class Level {
 				sprites.add(movingObject);
 			}
 		}
+		
 		sprites.add(player);
+		sprites.trimToSize();
+		
 	}
 	
 	/** Checks if level has been completed by player
      * @param player Game player.
      * @return boolean whether game has finished.
      */
-	private boolean isLevelComplete(Player player) {
-		return false;
-	}
 	
 	/** Update the game state for a frame while checking for collisions.
      * @param gc The Slick game container object.
@@ -66,15 +69,20 @@ public class Level {
      */
 	public void update(Input input, int delta, GameContainer gc) {
 		// Update all of the sprites in the game
-		for (Sprite a: sprites) {
+		ArrayList<Sprite> sortedSprites = new ArrayList<Sprite>(sprites);
+		Collections.sort(sortedSprites, new PriorityComparator());
+		for (Sprite a: sortedSprites) {
 			a.update(input, delta);
-			if (!isHit) {
-				System.out.println("hit");
+			if (!player.isHit) {
 				player.contactSprite(a);
-				
+			//	System.out.println(a);
 			}
-			
+		
 		}
+		if (FinalLocation.isGapFilled(player, sprites) && FinalLocation.GAPS_TO_FILL <= 0) {
+			isComplete = true;
+		}
+		player.isHit = false;
 		
 	}
 	
@@ -84,6 +92,7 @@ public class Level {
 	public void render(Graphics g) {
 		// Draw all of the sprites in the game
 		for (Sprite a:sprites) {
+			
 			a.render();
 		}
 	}
@@ -92,12 +101,23 @@ public class Level {
      * @return boolean returns if there has been a collision.
      */
 	public static void isCollision(Sprite a) {
-		//Checks if the player has hit a sprite that causes the game to exit (bus or water)
+		//Checks if the player has hit a sprite that causes the player to loose a life
 		if (a.getDanger()) {
-			player.resetPlayer();
-			System.out.println("reset");
 			Life.loseLife(player);
-		//	isHit = true;
+			player.resetPlayer();
+			player.isHit = true;
+		}
+	}
+	public static void isRiding(Sprite a) {
+		//Checks if the player has hit a sprite that causes the game to exit (bus or water)
+		if (a.getRideable()) {
+			player.isHit = true;
+		}
+	}
+	public static void isSolid(Sprite a) {
+		//Checks if the player has hit a sprite that causes the game to exit (bus or water)
+		if (a.getSolid()) {
+			player.isHit = true;
 		}
 	}
 	

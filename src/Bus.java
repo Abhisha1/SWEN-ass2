@@ -6,7 +6,6 @@ public class Bus extends Vehicle{
 	
 	public Bus(float x, float y, boolean moveRight) {
 		super(rate, x, y, imageAddress, moveRight);
-		System.out.println(this.getDanger());
 	}
 	
 	

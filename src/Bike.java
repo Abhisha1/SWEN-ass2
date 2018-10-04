@@ -1,6 +1,6 @@
 
 public class Bike extends Vehicle{
-	private static final int[] REVERSE_LOCS = {24, 100};
+	private static final float[] REVERSE_LOCS = {24f, 1000f};
 	
 	private static boolean isSolid = false;
 	private static float rate = 0.2f;
@@ -16,11 +16,14 @@ public class Bike extends Vehicle{
 	
 	public void move(int delta) {
 		// Obstacle's speed updated
-		for (int a: REVERSE_LOCS) {
-			if (this.getXLocation() == a) {
+		float buffer;
+		for (float a: REVERSE_LOCS) {
+			buffer = Math.abs(this.getXLocation()-a);
+			if (buffer < delta*rate) {
 				this.currentDirection*= -1;
 			}
 		}
+		System.out.println(delta);
 		this.setXLocation(this.getXLocation() + rate*delta*this.currentDirection);
 		this.getBoundingBox().setX(this.getXLocation());
 	}

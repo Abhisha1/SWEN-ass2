@@ -39,6 +39,7 @@ public class Instruction {
 			return Tile.createGrassTile(xPos, yPos);
 		}
 		else {
+			FinalLocation.setYPos(yPos);
 			return Tile.createTreeTile(xPos, yPos);
 		}
 	}
@@ -65,6 +66,9 @@ public class Instruction {
 		}
 		else if (objectInstructions[0].equals("bulldozer")) {
 			movingObject = new Bulldozer(xPos, yPos, moveRight);
+		}
+		else if (objectInstructions[0].equals("turtle")) {
+			movingObject = new Turtle(xPos, yPos, moveRight);
 		}
 		else {
 			movingObject = new Racecar(xPos, yPos, moveRight);
