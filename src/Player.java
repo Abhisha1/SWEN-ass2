@@ -13,6 +13,11 @@ public class Player extends Sprite {
 	
 	public boolean isHit = false;
 	
+	
+	
+	
+	
+	
 	public Player(String imageSrc, float x, float y){
 		super(imageSrc, x, y);
 		this.playerLives = Life.initialiseLives();

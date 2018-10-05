@@ -92,8 +92,12 @@ public class Level {
 	public void render(Graphics g) {
 		// Draw all of the sprites in the game
 		for (Sprite a:sprites) {
-			
-			a.render();
+			if (a.getVisibility()) {
+				if (a.getName().equals("TUTRLTE")) {
+					System.out.println(a.getVisibility());
+				}
+				a.render();
+			}
 		}
 	}
     /** Checks if player has hit another object.

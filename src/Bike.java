@@ -23,7 +23,7 @@ public class Bike extends Vehicle{
 				this.currentDirection*= -1;
 			}
 		}
-		System.out.println(delta);
+		//System.out.println(delta);
 		this.setXLocation(this.getXLocation() + rate*delta*this.currentDirection);
 		this.getBoundingBox().setX(this.getXLocation());
 	}

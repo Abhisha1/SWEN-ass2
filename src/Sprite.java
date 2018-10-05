@@ -4,6 +4,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Image;
 import utilities.BoundingBox;
 
+
 /**
  * Objects that are drawn onto the game screen.
  * Handles initialization, input and rendering.
@@ -31,6 +32,8 @@ public class Sprite {
 	
 	/**bounding box for the sprite*/
 	private BoundingBox boundingBox;
+	
+	private boolean isVisible = true;
 	
 	/**Rendered image of the sprite*/
 	Image spritePhoto;
@@ -117,6 +120,12 @@ public class Sprite {
 	}
 	public boolean getSolid() {
 		return this.isSolid;
+	}
+	public void setVisibility(boolean visibility) {
+		this.isVisible = visibility;
+	}
+	public boolean getVisibility() {
+		return this.isVisible;
 	}
 	public void setYLocation(float y) {
 		// sets y coordinate value

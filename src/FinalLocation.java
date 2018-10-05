@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public abstract class FinalLocation {
-	public static int GAPS_TO_FILL = 1;
+	public static int GAPS_TO_FILL = 5;
 	private static float yPos = Float.MIN_VALUE;
 	
 	public static void setYPos(float treeYPos) {
