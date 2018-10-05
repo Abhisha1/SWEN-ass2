@@ -24,8 +24,18 @@ public class Movable extends Sprite{
 		return -1;
 	}
 	
-
-	
+	public void setRate(float rate) {
+		this.rate = rate;
+	}
+	public float getRate() {
+		return this.rate;
+	}
+	public void setMoveToRight(boolean rate) {
+		this.moveToRight = rate;
+	}
+	public boolean getMoveToRight() {
+		return this.moveToRight;
+	}
 	
 	public void update(Input input, int delta) {
 		// Update all of the sprites in the game

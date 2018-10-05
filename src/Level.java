@@ -75,7 +75,6 @@ public class Level {
 			a.update(input, delta);
 			if (!player.isHit) {
 				player.contactSprite(a);
-			//	System.out.println(a);
 			}
 		
 		}
@@ -93,9 +92,6 @@ public class Level {
 		// Draw all of the sprites in the game
 		for (Sprite a:sprites) {
 			if (a.getVisibility()) {
-				if (a.getName().equals("TUTRLTE")) {
-					System.out.println(a.getVisibility());
-				}
 				a.render();
 			}
 		}
@@ -107,8 +103,8 @@ public class Level {
 	public static void isCollision(Sprite a) {
 		//Checks if the player has hit a sprite that causes the player to loose a life
 		if (a.getDanger()) {
-			Life.loseLife(player);
 			player.resetPlayer();
+			Life.loseLife(player);
 			player.isHit = true;
 		}
 	}
@@ -116,6 +112,7 @@ public class Level {
 		//Checks if the player has hit a sprite that causes the game to exit (bus or water)
 		if (a.getRideable()) {
 			player.isHit = true;
+			player.attachToRideable((Rideable)a);
 		}
 	}
 	public static void isSolid(Sprite a) {

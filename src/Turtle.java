@@ -20,14 +20,15 @@ public class Turtle extends Rideable{
 	public void update(Input input, int delta) {
 		// Obstacle's speed updated
 		myDelta+= delta;
-		System.out.println(myDelta);
 		super.move(delta);
 		if (myDelta >= reappear) {
 			super.setVisibility(true);
+			super.setDanger(false);
 			myDelta = 0;
 		}
 		else if (myDelta >= disappear) {
 			super.setVisibility(false);
+			super.setDanger(true);
 		}
 	}
 	
