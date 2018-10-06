@@ -13,7 +13,7 @@ public class Turtle extends Rideable{
 	
 	public Turtle(float x, float y, boolean moveRight) {
 		super(rate, x, y, imageAddress, moveRight);
-		this.setRideable(true);
+		this.setPushable(true);
 		super.setName("TUTRLTE");
 	}
 	

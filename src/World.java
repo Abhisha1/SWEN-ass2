@@ -53,12 +53,12 @@ public class World {
 	public void update(Input input, int delta, GameContainer gc) {
 		// Update all of the sprites in the game
 		player.update(input, delta, player);
-	//	if (!level1.isComplete) {
-	//		level1.update(input, delta, gc);
-	//	}
-	//	else {
+		if (!level1.isComplete) {
+			level1.update(input, delta, gc);
+		}
+		else {
 			level2.update(input, delta, gc);
-	//	}
+		}
 		if (gameOver()) {
 		//	gc.exit();
 		}
@@ -71,12 +71,12 @@ public class World {
      */
 	public void render(Graphics g) {
 		// Draw all of the sprites in the game
-		//if (!level1.isComplete) {
-			//level1.render(g);
-		//}
-	//	else {
+		if (!level1.isComplete) {
+			level1.render(g);
+		}
+		else {
 			level2.render(g);
-		//}
+		}
 		for (Life a: player.getLives()) {
 			a.render();
 		}

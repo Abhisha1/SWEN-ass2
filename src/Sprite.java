@@ -25,9 +25,8 @@ public class Sprite {
 	private boolean isDanger = false;
 	
 	/**If touching this object causes player to move/ride with it*/
-	private boolean isRideable = false;
+	private boolean isPushable = false;
 	
-	public boolean isPushable = false;
 	
 	/**Name of object*/
 	private String name = "sprite";
@@ -87,8 +86,8 @@ public class Sprite {
 	public void contactSprite(Sprite other) {
 		// Should be called when one sprite makes contact with another. 
 		if (this.getBoundingBox().intersects(other.getBoundingBox())) {
-			Level.isCollision(other);
 			Level.isPushed(other);
+			Level.isCollision(other);
 		}
 	}
 	public float getXLocation() {
@@ -114,11 +113,11 @@ public class Sprite {
 	public boolean getDanger() {
 		return this.isDanger;
 	}
-	public void setRideable(boolean isRideable) {
-		this.isRideable = isRideable;
+	public void setPushable(boolean isPushable) {
+		this.isPushable = isPushable;
 	}
-	public boolean getRideable() {
-		return this.isRideable;
+	public boolean getPushable() {
+		return this.isPushable;
 	}
 	public boolean getSolid() {
 		return this.isSolid;

@@ -56,4 +56,8 @@ public class Movable extends Sprite{
 			super.setXLocation(App.SCREEN_WIDTH + this.spritePhoto.getWidth()/2);
 		}
 	}
+	public void pushSprite(int delta, Sprite sprite) {
+		sprite.setXLocation(sprite.getXLocation() + rate*delta*moveDirection(moveToRight));
+		sprite.getBoundingBox().setX(sprite.getXLocation());
+	}
 }

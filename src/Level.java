@@ -73,6 +73,7 @@ public class Level {
 		Collections.sort(sortedSprites, new PriorityComparator());
 		for (Sprite a: sortedSprites) {
 			a.update(input, delta);
+			player.checkValidMoves(a);
 			if (!player.isHit) {
 				player.contactSprite(a);
 			}
@@ -110,13 +111,9 @@ public class Level {
 	}
 	public static void isPushed(Sprite a) {
 		//Checks if the player has hit a sprite that causes the game to exit (bus or water)
-		if (a.getRideable()) {
+		if (a.getPushable()) {
 			player.isHit = true;
-			player.attachToRideable((Rideable)a);
-		}
-		else if (a.getSolid() && a.isPushable) {
-			player.isHit = true;
-			player.attachToBulldozer((Bulldozer)a);
+			player.attachToPusher((Movable)a);
 		}
 	}
 	public static void isSolid(Sprite a) {

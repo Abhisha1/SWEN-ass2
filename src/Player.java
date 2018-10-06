@@ -1,9 +1,10 @@
 //This program was written by Abhisha Nirmalathas for SWEN20003 Project 1
 import java.util.ArrayList;
 
+
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-
+import utilities.BoundingBox;
 public class Player extends Sprite {
 	
 	private float initialXPos;
@@ -13,13 +14,17 @@ public class Player extends Sprite {
 	
 	public boolean isHit = false;
 	
-	private boolean onRideable = false;
 	
-	private Rideable rideable;
-	
-	private Bulldozer bulldozer;
+	private Movable pusher;
 	
 	private boolean isPushed = false;
+	
+	private boolean isLeftValid =true;
+	private boolean isRightValid = true;
+	private boolean isUpValid = true;
+	private boolean isDownValid = true;
+	
+	private BoundingBox nextMoveChecker;
 	
 	
 	public Player(String imageSrc, float x, float y){
@@ -27,79 +32,94 @@ public class Player extends Sprite {
 		this.playerLives = Life.initialiseLives();
 		initialXPos = this.getXLocation();
 		initialYPos = this.getYLocation();
+		nextMoveChecker = new BoundingBox(this.spritePhoto, initialXPos, initialYPos);
 	}
 	
 	public void update(Input input, int delta, Player player) {
 		// Updates the location of the player, moving one tile in the selected direction
 		// whilst ensuring the update location is not outside the game container
 		
-		if (this.onRideable) {
-			rideable.pushSprite(delta, (Sprite)player);
-		}
 		if (this.isPushed) {
-			bulldozer.pushSprite(delta, (Sprite)player);
+			pusher.pushSprite(delta, (Sprite)player);
 		}
 		
-		if (input.isKeyPressed(Input.KEY_UP) && ((this.getYLocation() - Tile.TILE_SIZE) >= 0 )) {
+		if (input.isKeyPressed(Input.KEY_UP) && ((this.getYLocation() - Tile.TILE_SIZE) >= 0 ) && isUpValid) {
 			this.setYLocation(this.getYLocation() - Tile.TILE_SIZE);
 			player.getBoundingBox().setY(this.getYLocation());
-			this.onRideable = false;
 			this.isPushed = false;
 		}
 		
-		else if (input.isKeyPressed(Input.KEY_DOWN) && ((this.getYLocation() + Tile.TILE_SIZE) < App.SCREEN_HEIGHT )) {
+		else if (input.isKeyPressed(Input.KEY_DOWN) && ((this.getYLocation() + Tile.TILE_SIZE) < App.SCREEN_HEIGHT ) && isDownValid) {
 			this.setYLocation(this.getYLocation() + Tile.TILE_SIZE);
 			player.getBoundingBox().setY(this.getYLocation());
-			this.onRideable = false;
 			this.isPushed = false;
 		}
 		
-		else if (input.isKeyPressed(Input.KEY_LEFT) && ((this.getXLocation() - Tile.TILE_SIZE) >= 0 )) {
+		else if (input.isKeyPressed(Input.KEY_LEFT) && ((this.getXLocation() - Tile.TILE_SIZE) >= 0 ) && isLeftValid) {
 			this.setXLocation(this.getXLocation() - Tile.TILE_SIZE);
 			player.getBoundingBox().setX(this.getXLocation());
-			this.onRideable = false;
 			this.isPushed = false;
 		}
 		
-		else if (input.isKeyPressed(Input.KEY_RIGHT) && ((this.getXLocation() + Tile.TILE_SIZE) < App.SCREEN_WIDTH )) {
+		else if (input.isKeyPressed(Input.KEY_RIGHT) && ((this.getXLocation() + Tile.TILE_SIZE) < App.SCREEN_WIDTH ) && isRightValid) {
 			this.setXLocation(this.getXLocation() + Tile.TILE_SIZE);
 			player.getBoundingBox().setX(this.getXLocation());
-			this.onRideable = false;
 			this.isPushed = false;
 		}
+		resetValidMoves();
 	}
 	public ArrayList<Life> getLives(){
 		return this.playerLives;
 	}
 	
 	public void resetPlayer() {
-		deattachToRideable(rideable);
-		deattachToBulldozer(bulldozer);
+		deattachToPusher(pusher);
+		resetValidMoves();
 		this.setXLocation(initialXPos);
 		this.setYLocation(initialYPos);
-		System.out.println("***");
-		System.out.println(onRideable);
 	}
 	
 	private boolean reachedFinalLocation(Sprite a) {
 		return false;
 	}
 	
-	public void attachToRideable(Rideable rideable) {
-		this.rideable = rideable;
-		this.onRideable = true;
-	}
-	private void deattachToRideable(Rideable rideable) {
-		this.rideable = null;
-		this.onRideable = false;
-	}
-	public void attachToBulldozer(Bulldozer bulldozer) {
-		this.bulldozer = bulldozer;
+	public void attachToPusher(Movable pusher) {
+		this.pusher = pusher;
 		this.isPushed = true;
 	}
-	private void deattachToBulldozer(Bulldozer bulldozer) {
-		this.bulldozer = null;
+	private void deattachToPusher(Movable pusher) {
+		this.pusher = null;
 		this.isPushed = false;
+	}
+	
+	public void checkValidMoves(Sprite sprite) {
+		float x = this.getXLocation();
+		float y = this.getYLocation();
+		nextMoveChecker.setX(x+Tile.TILE_SIZE);
+		if (sprite.getBoundingBox().intersects(nextMoveChecker) && sprite.getSolid()) {
+			isRightValid = false;
+		}
+		nextMoveChecker.setX(x-Tile.TILE_SIZE);
+		if (sprite.getBoundingBox().intersects(nextMoveChecker) && sprite.getSolid()) {
+			isLeftValid = false;
+		}
+		nextMoveChecker.setX(x);
+		nextMoveChecker.setY(y+Tile.TILE_SIZE);
+		if (sprite.getBoundingBox().intersects(nextMoveChecker) && sprite.getSolid()) {
+			isDownValid = false;
+		}
+		nextMoveChecker.setY(y-Tile.TILE_SIZE);
+		if (sprite.getBoundingBox().intersects(nextMoveChecker) && sprite.getSolid()) {
+			isUpValid = false;
+		}
+		nextMoveChecker.setY(y);
+	}
+	
+	private void resetValidMoves() {
+		isLeftValid =true;
+		isRightValid = true;
+		isUpValid = true;
+		isDownValid = true;
 	}
 
 
