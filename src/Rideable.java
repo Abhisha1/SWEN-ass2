@@ -1,5 +1,5 @@
 
-public class Rideable extends Movable {
+public class Rideable extends Movable implements Pusher{
 	public Rideable(float rate, float x, float y, String imageAddress, boolean moveRight) {
 		super(rate, x, y, imageAddress, moveRight); 
 		super.setRate(rate);

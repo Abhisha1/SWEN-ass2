@@ -17,6 +17,10 @@ public class Player extends Sprite {
 	
 	private Rideable rideable;
 	
+	private Bulldozer bulldozer;
+	
+	private boolean isPushed = false;
+	
 	
 	public Player(String imageSrc, float x, float y){
 		super(imageSrc, x, y);
@@ -32,29 +36,36 @@ public class Player extends Sprite {
 		if (this.onRideable) {
 			rideable.pushSprite(delta, (Sprite)player);
 		}
+		if (this.isPushed) {
+			bulldozer.pushSprite(delta, (Sprite)player);
+		}
 		
 		if (input.isKeyPressed(Input.KEY_UP) && ((this.getYLocation() - Tile.TILE_SIZE) >= 0 )) {
 			this.setYLocation(this.getYLocation() - Tile.TILE_SIZE);
 			player.getBoundingBox().setY(this.getYLocation());
 			this.onRideable = false;
+			this.isPushed = false;
 		}
 		
 		else if (input.isKeyPressed(Input.KEY_DOWN) && ((this.getYLocation() + Tile.TILE_SIZE) < App.SCREEN_HEIGHT )) {
 			this.setYLocation(this.getYLocation() + Tile.TILE_SIZE);
 			player.getBoundingBox().setY(this.getYLocation());
 			this.onRideable = false;
+			this.isPushed = false;
 		}
 		
 		else if (input.isKeyPressed(Input.KEY_LEFT) && ((this.getXLocation() - Tile.TILE_SIZE) >= 0 )) {
 			this.setXLocation(this.getXLocation() - Tile.TILE_SIZE);
 			player.getBoundingBox().setX(this.getXLocation());
 			this.onRideable = false;
+			this.isPushed = false;
 		}
 		
 		else if (input.isKeyPressed(Input.KEY_RIGHT) && ((this.getXLocation() + Tile.TILE_SIZE) < App.SCREEN_WIDTH )) {
 			this.setXLocation(this.getXLocation() + Tile.TILE_SIZE);
 			player.getBoundingBox().setX(this.getXLocation());
 			this.onRideable = false;
+			this.isPushed = false;
 		}
 	}
 	public ArrayList<Life> getLives(){
@@ -63,10 +74,11 @@ public class Player extends Sprite {
 	
 	public void resetPlayer() {
 		deattachToRideable(rideable);
-		this.getBoundingBox().setX(initialXPos);
-		this.getBoundingBox().setY(initialYPos);
+		deattachToBulldozer(bulldozer);
 		this.setXLocation(initialXPos);
 		this.setYLocation(initialYPos);
+		System.out.println("***");
+		System.out.println(onRideable);
 	}
 	
 	private boolean reachedFinalLocation(Sprite a) {
@@ -78,8 +90,16 @@ public class Player extends Sprite {
 		this.onRideable = true;
 	}
 	private void deattachToRideable(Rideable rideable) {
-		this.onRideable = false;
 		this.rideable = null;
+		this.onRideable = false;
+	}
+	public void attachToBulldozer(Bulldozer bulldozer) {
+		this.bulldozer = bulldozer;
+		this.isPushed = true;
+	}
+	private void deattachToBulldozer(Bulldozer bulldozer) {
+		this.bulldozer = null;
+		this.isPushed = false;
 	}
 
 

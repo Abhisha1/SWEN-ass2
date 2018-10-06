@@ -108,11 +108,15 @@ public class Level {
 			player.isHit = true;
 		}
 	}
-	public static void isRiding(Sprite a) {
+	public static void isPushed(Sprite a) {
 		//Checks if the player has hit a sprite that causes the game to exit (bus or water)
 		if (a.getRideable()) {
 			player.isHit = true;
 			player.attachToRideable((Rideable)a);
+		}
+		else if (a.getSolid() && a.isPushable) {
+			player.isHit = true;
+			player.attachToBulldozer((Bulldozer)a);
 		}
 	}
 	public static void isSolid(Sprite a) {
