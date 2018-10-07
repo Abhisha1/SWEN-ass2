@@ -5,8 +5,9 @@
  * Handles all the intialisation and movement of the bike.*/
 
 public class Bike extends Vehicle{
-	private static final int REVERSE_LOC_LOWER = 24;
-	private static final int REVERSE_LOC_UPPER =1000;
+	// two x coordinates where the bike must reverse direction
+	private static final int REVERSE_LOWER = 24;
+	private static final int REVERSE_UPPER = 1000;
 	
 	private static float rate = 0.2f;
 	private static String imageAddress = "assets/bike.png";
@@ -31,15 +32,15 @@ public class Bike extends Vehicle{
 	public void move(int delta) {
 		// Obstacle's speed updated
 		float buffer;
-	//	for (float a: REVERSE_LOCS) {
-			// Computes a buffer size distance which triggers the bike to change location
-		//	buffer = Math.abs(this.getXLocation()-a);
-		//	if (buffer < delta*rate) {
-			if ((int)this.getXLocation()<=REVERSE_LOC_LOWER || (int)this.getXLocation()>=REVERSE_LOC_UPPER) {
-				this.currentDirection*= -1;
-			}
-	//	}
 		this.setXLocation(this.getXLocation() + rate*delta*this.currentDirection);
 		this.getBoundingBox().setX(this.getXLocation());
+		// Hit left side reverse location bound so bike travels to the right now
+		if ((int)this.getBoundingBox().getLeft() <= REVERSE_LOWER) {
+			this.currentDirection= 1;
+		}
+		// Hit right side reverse location bound so bike travels to the left now
+		if ((int)this.getBoundingBox().getRight() >= REVERSE_UPPER) {
+			this.currentDirection = -1;
+		}
 	}
 }
