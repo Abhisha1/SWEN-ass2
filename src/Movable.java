@@ -8,12 +8,12 @@ public class Movable extends Sprite{
 		super(imageAddress, x, y);
 		this.rate = rate;
 		this.moveToRight = moveRight;
-		super.priority = World.HIGH_PRIORITY;
+		super.priority = Sprite.MEDIUM_PRIORITY;
 	}
 	
 	public void move(int delta) {
 		// Obstacle's speed updated
-		this.setXLocation(this.getXLocation() + this.rate*delta*moveDirection(this.moveToRight));
+		this.wrapXLocation(this.getXLocation() + this.rate*delta*moveDirection(this.moveToRight));
 		this.getBoundingBox().setX(this.getXLocation());
 	}
 	
@@ -42,22 +42,8 @@ public class Movable extends Sprite{
 		move(delta);
 		
 	}
-	public void setXLocation(float x) {
-		// Updates the location of obstacle to newly computed value or either end of game container
-		super.setXLocation(x);
-		if (x > 0 && x <= App.SCREEN_WIDTH) {
-			super.setXLocation(x);
-		}
-		else if (x - this.spritePhoto.getWidth()/2 >= App.SCREEN_WIDTH) {
-			super.setXLocation(0.0f - this.spritePhoto.getWidth()/2);
-		}
-		
-		else if (x  + this.spritePhoto.getWidth()/2 <= 0.0f) {
-			super.setXLocation(App.SCREEN_WIDTH + this.spritePhoto.getWidth()/2);
-		}
-	}
 	public void pushSprite(int delta, Sprite sprite) {
-		sprite.setXLocation(sprite.getXLocation() + rate*delta*moveDirection(moveToRight));
+		sprite.wrapXLocation(sprite.getXLocation() + rate*delta*moveDirection(moveToRight));
 		sprite.getBoundingBox().setX(sprite.getXLocation());
 	}
 }

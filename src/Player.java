@@ -18,6 +18,7 @@ public class Player extends Sprite {
 	private Movable pusher;
 	
 	private boolean isPushed = false;
+	public boolean gotExtraLife = false;
 	
 	private boolean isLeftValid =true;
 	private boolean isRightValid = true;
@@ -121,7 +122,6 @@ public class Player extends Sprite {
 		isUpValid = true;
 		isDownValid = true;
 	}
-
 
 
 }

@@ -12,6 +12,11 @@ import utilities.BoundingBox;
 
 public class Sprite {
 	
+	/**Priority Ranking assigned for each sprite so that higher priority collisions are checked first*/
+	public static int LOW_PRIORITY = 0;
+	public static int MEDIUM_PRIORITY = 1;
+	public static int HIGH_PRIORITY = 2;
+	
 	/** The x position of sprite*/
 	private float xLocation;
 	
@@ -39,8 +44,14 @@ public class Sprite {
 	/**Rendered image of the sprite*/
 	Image spritePhoto;
 	
-	public int priority = World.LOW_PRIORITY;
+	/**Default priority ranking*/
+	public int priority = LOW_PRIORITY;
 	
+	/** Creates a new object of class Sprite
+     * @param imageSrc A string containing the file path for image.
+     * @param x The x location of the sprite.
+     * @param y The y location of the sprite.
+     */
 	public Sprite(String imageSrc, float x, float y) {
 		// Every sprite/image drawn on the game container has a photo, and coordinates
 		try {
@@ -53,18 +64,24 @@ public class Sprite {
 		
 		
 	}
-	
+	/** Creates a bounding box for sprite
+     * @param sprite A drawable object in game.
+     */
 	public void createBoundingBox(Sprite sprite) {
 		// Makes a bounding box for sprite
 		boundingBox = new BoundingBox(sprite.spritePhoto, sprite.getXLocation(), sprite.getYLocation());
 		
 	}
-	
+	/** Returns bounding box.
+     * @param a A drawable object in game.
+     */
 	public BoundingBox getBoundingBox() {
 		//returns the bounding box via getter method
 		return this.boundingBox;
 	}
-	
+	/** Checks if sprite has a bounding box.
+     * @param box A box in which the sprite image is contained inside.
+     */
 	public boolean hasBoundingBox(BoundingBox box) {
 		// checks if bounding box exists
 		if (box.equals(null)) {
@@ -72,17 +89,22 @@ public class Sprite {
 		}
 		return true;
 	}
-	
+	/** Update the game state for a frame when dealing with a sprite.
+     * @param delta Time passed since last frame (milliseconds).
+     * @param input The user input.
+     */
 	public void update(Input input, int delta) {
-		// How can this one method deal with different types of sprites?
 	}
-	
+	/** Draws the sprite onto the game container
+     */
 	public void render() {
 		this.spritePhoto.drawCentered(this.xLocation, this.yLocation);
 		// This should be pretty simple.
 		
 	}
-	
+	/** Checks if a sprite has hit another sprite
+     * @param other A drawable object in game.
+     */
 	public void contactSprite(Sprite other) {
 		// Should be called when one sprite makes contact with another. 
 		if (this.getBoundingBox().intersects(other.getBoundingBox())) {
@@ -141,5 +163,22 @@ public class Sprite {
 	public String getName() {
 		// sets y coordinate value
 			return this.name;
+	}
+	/** Updates the location of a sprite whilst ensuring it wraps around the game container.
+     * @param x Value to assign the x location of sprite.
+     */
+	public void wrapXLocation(float x) {
+		// Updates the location of obstacle to newly computed value or either end of game container
+		this.setXLocation(x);
+		if (x > 0 && x <= App.SCREEN_WIDTH) {
+			this.setXLocation(x);
+		}
+		else if (x - this.spritePhoto.getWidth()/2 >= App.SCREEN_WIDTH) {
+			this.setXLocation(0.0f - this.spritePhoto.getWidth()/2);
+		}
+		
+		else if (x  + this.spritePhoto.getWidth()/2 <= 0.0f) {
+			this.setXLocation(App.SCREEN_WIDTH + this.spritePhoto.getWidth()/2);
+		}
 	}
 }

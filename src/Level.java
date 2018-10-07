@@ -19,11 +19,13 @@ public class Level {
 	private Tile tile;
 	private static Player player;
 	
+	/** Timer*/
 	private float myDelta = 0f;
-	
+	/**Determines when extra life is created and destroyed*/
 	private float spawnExtraLife;
 	//private float destroyExtraLife = 2000;
 	private float destroyExtraLife = 14000;
+	
 	/** All rendered images in level*/
 	ArrayList<Sprite> sprites = new ArrayList<Sprite>();
 	
@@ -82,8 +84,6 @@ public class Level {
 			player.checkValidMoves(a);
 			if (!player.isHit) {
 				if (a.getName().equals("extra life")){
-		//			System.out.format("extra life bb cords"+ a.getBoundingBox().getLeft() + a.getBoundingBox().getRight()
-		//					+ "player coords"+ player.getBoundingBox().getLeft() + player.getBoundingBox().getRight()+"\n");
 				}
 				player.contactSprite(a);
 			}
@@ -110,47 +110,57 @@ public class Level {
 	}
     /** Checks if player has hit another object.
      * @param a A drawable object in game.
-     * @return boolean returns if there has been a collision.
      */
 	public static void isCollision(Sprite a) {
-		//Checks if the player has hit a sprite that causes the player to loose a life
 		if (a.getDanger()) {
 			player.resetPlayer();
 			Life.loseLife(player);
 			player.isHit = true;
 		}
 	}
+	 /** Checks if player is being pushed by another object.
+     * @param a A drawable object in game.
+     */
 	public static void isPushed(Sprite a) {
-		//Checks if the player has hit a sprite that causes the game to exit (bus or water)
 		if (a.getPushable()) {
 			player.isHit = true;
 			player.attachToPusher((Movable)a);
 		}
 	}
+	 /** Checks if player has hit a solid object (one it cannot move onto).
+     * @param a A drawable object in game.
+     */
 	public static void isSolid(Sprite a) {
-		//Checks if the player has hit a sprite that causes the game to exit (bus or water)
 		if (a.getSolid()) {
 			player.isHit = true;
 		}
 	}
 	
-	
+	 /** Checks if player has hit an extra life and gives player extra life if yes.
+     * @param a A drawable object in game.
+     */
 	public static void getExtraLife(Sprite a) {
 		if (a.getName().equals("extra life")) {
 			Life.gainLife();
 			a.setVisibility(false);
 			a = null;
 			player.isHit = true;
+			player.gotExtraLife = true;
 		}
 	}
-	
+	// Creates Extra Life objects at random time intervals as defined by the game spec.
 	private void spawnExtraLife() {
-		if (myDelta >= ExtraLife.spawnTimeExtraLife()+destroyExtraLife) {
+		if ((myDelta >= ExtraLife.spawnTimeExtraLife()+destroyExtraLife) || player.gotExtraLife) {
+			System.out.println("reset");
 			extraLife.removeExtraLife(sprites);
+			extraLife = null;
 			myDelta = 0f;
 			ExtraLife.initialiseSpawning(sprites);
+			System.out.format(ExtraLife.spawnTimeExtraLife()+"\n");
+			player.gotExtraLife = false;
 		}
-		if (myDelta >= ExtraLife.spawnTimeExtraLife() && extraLife== null) {
+		if (myDelta >= ExtraLife.spawnTimeExtraLife() && extraLife == null) {
+			System.out.println("make new");
 			extraLife = new ExtraLife(sprites);
 			sprites.add(extraLife);
 		}

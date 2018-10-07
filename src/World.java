@@ -18,15 +18,13 @@ public class World {
 	/** First game level */
 	private Level level1;
 	
+	/** Second game level */
 	private Level level2;
 	
 	
 	/** Checks if game is completed */
 	private boolean gameWon = false;
-	
-	public static int LOW_PRIORITY = 0;
-	public static int HIGH_PRIORITY = 1;
-	
+		
 	/** Creates world with a player and corresponding level
      */
 	public World() {

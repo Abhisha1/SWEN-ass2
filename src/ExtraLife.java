@@ -15,6 +15,9 @@ public class ExtraLife extends Sprite{
 	
 	Log log;
 	
+	private boolean moveToRight = true;
+	private float moveOnLog = 2000f;
+	
 	static Random rand = new Random();
 	
 	private float myDelta = 0f;
@@ -23,7 +26,7 @@ public class ExtraLife extends Sprite{
 	public ExtraLife(ArrayList<Sprite> sprites) {
 		super(imageAddress, 0f, 0f);
 		super.setName("extra life");
-		super.priority = 5;
+		super.priority = Sprite.HIGH_PRIORITY;
 		this.setVisibility(true);
 		this.createBoundingBox(this);
 		selectLog(sprites);
@@ -64,12 +67,30 @@ public class ExtraLife extends Sprite{
 		sprites.remove(this);
 		log = null;
 	}
+	
+	
 	public void update(Input input, int delta) {
 		// Update all of the sprites in the game
+		myDelta+=delta;
+		logDirectionTraversal();
+		if (myDelta >= moveOnLog) {
+			this.setXLocation(this.getXLocation() + Tile.TILE_SIZE*log.moveDirection(this.moveToRight));
+			myDelta = 0f;
+		}
 		if (!log.equals(null) && !this.equals(null)) {
 			log.pushSprite(delta, (Sprite)this);
 		}
 		
+	}
+	
+	private void logDirectionTraversal() {
+		System.out.format("box"+this.getBoundingBox().getRight()+"   "+log.getBoundingBox().getRight()+"\n");
+		if (this.getBoundingBox().getRight()+Tile.TILE_SIZE > log.getBoundingBox().getRight() && this.moveToRight) {
+			this.moveToRight = false;
+		}
+		else {
+			this.moveToRight = true;
+		}
 	}
 	
 	

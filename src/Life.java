@@ -21,17 +21,18 @@ public class Life extends Sprite{
 			playerLives.add(new Life(XPos, YPos));
 			XPos+=pixelSize;
 		}
-		XPos-=pixelSize;
 		return playerLives;
 	}
 	public static void loseLife(Player player) {
 		if (livesCount > minLives) {
 			player.getLives().remove(livesCount-1);
 			livesCount--;
+			XPos -= pixelSize;
 			player.resetPlayer();
 		}
 	}
 	public static void gainLife() {
+		livesCount++;
 		playerLives.add(new Life(XPos, YPos));
 		System.out.println("got a ilife");
 		XPos += pixelSize;
