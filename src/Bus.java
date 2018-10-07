@@ -1,8 +1,12 @@
-
+/**A sub class of Vehicle which handles the objects Bus.
+ * This objects results in death for the player or loss 
+ * of life if collided with.
+ * Initialisation and movement of bus handled here
+ * */
 public class Bus extends Vehicle{
-	private static boolean isSolid = false;
 	private static float rate = 0.15f;
 	private static String imageAddress = "assets/bus.png";
+	private static String name = "bus";
 	
 	
 	/** Creates an object of class Bus
@@ -12,6 +16,7 @@ public class Bus extends Vehicle{
 	 * */
 	public Bus(float x, float y, boolean moveRight) {
 		super(rate, x, y, imageAddress, moveRight);
+		this.setName(name);
 	}
 	
 	

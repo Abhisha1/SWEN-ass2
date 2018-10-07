@@ -1,9 +1,7 @@
 import java.util.Random;
 import java.util.ArrayList;
 
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
 /**
  * A subclass from sprite which handles the Extra Life Object.
  * This Object helps the player get an additional life if the 
@@ -66,8 +64,7 @@ public class ExtraLife extends Sprite{
 	 * @param sprites An array of sprites.
 	 * */
 	public static void initialiseSpawning(ArrayList<Sprite> sprites) {
-		randomSeconds = (rand.nextInt(5))*1000;
-	//	randomSeconds = (rand.nextInt(maxSeconds-minSeconds)+minSeconds)*1000;
+		randomSeconds = (rand.nextInt(maxSeconds-minSeconds)+minSeconds)*1000;
 		nthLog = rand.nextInt(Log.getNumberOfLogs(sprites)-1);
 		
 	}
@@ -108,6 +105,7 @@ public class ExtraLife extends Sprite{
 	}
 	
 	private void logDirectionTraversal() {
+		// Determines which direction the extra life object is travelling on the log
 		System.out.format("box"+this.getBoundingBox().getRight()+"   "+log.getBoundingBox().getRight()+"\n");
 		if (this.getBoundingBox().getRight()+Tile.TILE_SIZE > log.getBoundingBox().getRight() && this.moveToRight) {
 			this.moveToRight = false;

@@ -2,7 +2,8 @@
 import java.util.ArrayList;
 import org.newdawn.slick.Input;
 import utilities.BoundingBox;
-
+/** A sub class of Sprite which handles the main player for the game.
+ * */
 public class Player extends Sprite {
 	
 	private float initialXPos;
@@ -26,6 +27,7 @@ public class Player extends Sprite {
 	private boolean isUpValid = true;
 	private boolean isDownValid = true;
 	
+	private static String name = "player";
 	private BoundingBox nextMoveChecker;
 	
 	/**Creates object of class Player
@@ -36,6 +38,7 @@ public class Player extends Sprite {
 	public Player(String imageSrc, float x, float y){
 		super(imageSrc, x, y);
 		this.playerLives = Life.initialiseLives();
+		this.setName(name);
 		initialXPos = this.getXLocation();
 		initialYPos = this.getYLocation();
 		nextMoveChecker = new BoundingBox(this.spritePhoto, initialXPos, initialYPos);

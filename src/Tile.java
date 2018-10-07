@@ -1,4 +1,6 @@
 // Adapted from Eleanor McMurty's Solution to Project 1
+/** A subclass from Sprite which handles the initialisation of Tiles.
+ * */
 public class Tile extends Sprite {
 		/** The size of each tile, as per the game spec.*/
 		public static final int TILE_SIZE = 48;

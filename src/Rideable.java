@@ -2,6 +2,7 @@
  * Handles a sub class of Movable objects, which an object can ride on.
  */
 public class Rideable extends Movable{
+	private static boolean isPushable = true;
 	/** Creates an object of the class Rideable
 	 * @param rate Speed at which Rideable object moves at.
      * @param x The x coordinate of object.
@@ -12,7 +13,7 @@ public class Rideable extends Movable{
 	public Rideable(float rate, float x, float y, String imageAddress, boolean moveRight) {
 		super(rate, x, y, imageAddress, moveRight); 
 		super.setRate(rate);
-		super.setPushable(true);
+		super.setPushable(isPushable);
 		super.setName("rideable");
 		
 	}

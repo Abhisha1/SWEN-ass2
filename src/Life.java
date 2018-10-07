@@ -11,6 +11,7 @@ public class Life extends Sprite{
 	private static float YPos = 744f;
 	private static float pixelSize = 32f;
 	private static String imageAddress = "assets/lives.png";
+	private static String name = "life";
 	
 	
 	private static ArrayList<Life> playerLives = new ArrayList<Life>(3);
@@ -21,6 +22,7 @@ public class Life extends Sprite{
 	 */
 	public Life(float x, float y) {
 		super(imageAddress, x, y); 
+		this.setName(name);
 	}
 	/**Creates the players initial set of lives which the player has for the entire game.
 	 * @return An array containing the players lives.

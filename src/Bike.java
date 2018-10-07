@@ -1,14 +1,15 @@
 /**
  * A sub class of vehicle which contains a bike,
  * an object which changes direction at regular intervals as specified
- * by the game spec*/
+ * by the game spec.
+ * Handles all the intialisation and movement of the bike.*/
 
 public class Bike extends Vehicle{
 	private static final float[] REVERSE_LOCS = {24f, 1000f};
 	
-	private static boolean isSolid = false;
 	private static float rate = 0.2f;
 	private static String imageAddress = "assets/bike.png";
+	private static String name = "bike";
 		
 	
 	private int currentDirection;
@@ -20,6 +21,7 @@ public class Bike extends Vehicle{
 	public Bike(float x, float y, boolean moveRight) {
 		super(rate, x, y, imageAddress, moveRight);
 		this.currentDirection = moveDirection(moveRight);
+		this.setName(name);
 	}
 	/** Moves the bike such that it reverses direction at the user defined x coordinates
      * @param delta Time passed since last frame (milliseconds).
@@ -29,7 +31,7 @@ public class Bike extends Vehicle{
 		// Obstacle's speed updated
 		float buffer;
 		for (float a: REVERSE_LOCS) {
-			// Computes a buffer size distance whcih triggers the bike to change location
+			// Computes a buffer size distance which triggers the bike to change location
 			buffer = Math.abs(this.getXLocation()-a);
 			if (buffer <= delta*rate) {
 				this.currentDirection*= -1;

@@ -1,6 +1,7 @@
 /**
  * A sub class of Movable for sprites in which a player should lose a life generally
- * if made contact with*/
+ * if made contact with.
+ * Handles the initialisation of Vehicles*/
 
 public class Vehicle extends Movable{
 	

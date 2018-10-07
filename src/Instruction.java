@@ -1,7 +1,9 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
-
+/** Handles the CSV file and parses the instructions so as to
+ *  load the sprites for each level.
+ * */
 public class Instruction {
 	private ArrayList<String[]> instructions;
 	
