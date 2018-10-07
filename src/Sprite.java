@@ -86,6 +86,7 @@ public class Sprite {
 	public void contactSprite(Sprite other) {
 		// Should be called when one sprite makes contact with another. 
 		if (this.getBoundingBox().intersects(other.getBoundingBox())) {
+			Level.getExtraLife(other);
 			Level.isPushed(other);
 			Level.isCollision(other);
 		}

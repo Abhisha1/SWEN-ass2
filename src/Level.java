@@ -19,7 +19,11 @@ public class Level {
 	private Tile tile;
 	private static Player player;
 	
+	private float myDelta = 0f;
 	
+	private float spawnExtraLife;
+	//private float destroyExtraLife = 2000;
+	private float destroyExtraLife = 14000;
 	/** All rendered images in level*/
 	ArrayList<Sprite> sprites = new ArrayList<Sprite>();
 	
@@ -29,6 +33,7 @@ public class Level {
 	/**Data that controls the initialising of the level background*/
 	Instruction levelInstructions;
 	
+	ExtraLife extraLife;
 	
 	/** Creates the level
      * @param instructionFileAddress file path name which contains level instructions.
@@ -37,7 +42,6 @@ public class Level {
 	public Level(String instructionFileAddress, Player player) {
 		this.player = player;
 		this.levelInstructions = new Instruction(instructionFileAddress);
-		
 		for (String[] a: levelInstructions.getInstructions()) {
 			//System.out.println(Arrays.toString(a));
 			if (Tile.isTile(a[0])){
@@ -51,7 +55,7 @@ public class Level {
 				sprites.add(movingObject);
 			}
 		}
-		
+		ExtraLife.initialiseSpawning(sprites);
 		sprites.add(player);
 		sprites.trimToSize();
 		
@@ -71,14 +75,21 @@ public class Level {
 		// Update all of the sprites in the game
 		ArrayList<Sprite> sortedSprites = new ArrayList<Sprite>(sprites);
 		Collections.sort(sortedSprites, new PriorityComparator());
+		myDelta+=delta;
+		
 		for (Sprite a: sortedSprites) {
 			a.update(input, delta);
 			player.checkValidMoves(a);
 			if (!player.isHit) {
+				if (a.getName().equals("extra life")){
+		//			System.out.format("extra life bb cords"+ a.getBoundingBox().getLeft() + a.getBoundingBox().getRight()
+		//					+ "player coords"+ player.getBoundingBox().getLeft() + player.getBoundingBox().getRight()+"\n");
+				}
 				player.contactSprite(a);
 			}
 		
 		}
+		spawnExtraLife();
 		if (FinalLocation.isGapFilled(player, sprites) && FinalLocation.GAPS_TO_FILL <= 0) {
 			isComplete = true;
 		}
@@ -124,4 +135,24 @@ public class Level {
 	}
 	
 	
+	public static void getExtraLife(Sprite a) {
+		if (a.getName().equals("extra life")) {
+			Life.gainLife();
+			a.setVisibility(false);
+			a = null;
+			player.isHit = true;
+		}
+	}
+	
+	private void spawnExtraLife() {
+		if (myDelta >= ExtraLife.spawnTimeExtraLife()+destroyExtraLife) {
+			extraLife.removeExtraLife(sprites);
+			myDelta = 0f;
+			ExtraLife.initialiseSpawning(sprites);
+		}
+		if (myDelta >= ExtraLife.spawnTimeExtraLife() && extraLife== null) {
+			extraLife = new ExtraLife(sprites);
+			sprites.add(extraLife);
+		}
+	}
 }

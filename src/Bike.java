@@ -19,7 +19,7 @@ public class Bike extends Vehicle{
 		float buffer;
 		for (float a: REVERSE_LOCS) {
 			buffer = Math.abs(this.getXLocation()-a);
-			if (buffer < delta*rate) {
+			if (buffer <= delta*rate) {
 				this.currentDirection*= -1;
 			}
 		}
