@@ -76,6 +76,7 @@ public class Sprite {
 		
 	}
 	/** Returns bounding box.
+	 * @return BoundingBox The Box that bounds ther sprite.
      */
 	public BoundingBox getBoundingBox() {
 		//returns the bounding box via getter method
@@ -128,14 +129,20 @@ public class Sprite {
 		// returns y coordinate
 		return this.yLocation;
 	}
+	/**Sets the x coordinate of sprite
+	 * @param x The new x coordinate to be assigned.*/
 	public void setXLocation(float x) {
 		// sets x coordinate value
 			this.xLocation = x;
 			this.boundingBox.setX(x);
 	}
+	/**Sets the solid status of sprite
+	 * @param isSolid The new solid status of sprite.*/
 	public void setSolid(boolean isSolid) {
 		this.isSolid = isSolid;
 	}
+	/**Sets the danger status of sprite
+	 * @param isDanger The new danger status of sprite.*/
 	public void setDanger(boolean isDanger) {
 		this.isDanger = isDanger;
 	}
@@ -144,6 +151,8 @@ public class Sprite {
 	public boolean getDanger() {
 		return this.isDanger;
 	}
+	/**Sets the pushable status of sprite
+	 * @param isPushable The new pushable status of sprite.*/
 	public void setPushable(boolean isPushable) {
 		this.isPushable = isPushable;
 	}
@@ -157,6 +166,8 @@ public class Sprite {
 	public boolean getSolid() {
 		return this.isSolid;
 	}
+	/**Sets the visibility of sprite
+	 * @param visibility Update whether the sprite can be seen.*/
 	public void setVisibility(boolean visibility) {
 		this.isVisible = visibility;
 	}
@@ -165,11 +176,15 @@ public class Sprite {
 	public boolean getVisibility() {
 		return this.isVisible;
 	}
+	/**Sets the y coordinate of sprite
+	 * @param y The new y coordinate to be assigned.*/
 	public void setYLocation(float y) {
 		// sets y coordinate value
 			this.yLocation = y;
 			this.boundingBox.setY(y);
 	}
+	/**Sets the name of sprite
+	 * @param name The name of the sprite.*/
 	public void setName(String name) {
 		// sets y coordinate value
 			this.name = name;
@@ -196,6 +211,26 @@ public class Sprite {
 		//Sprite moving off left end of screen
 		else if (x  + this.spritePhoto.getWidth()/2 <= 0.0f) {
 			this.setXLocation(App.SCREEN_WIDTH + this.spritePhoto.getWidth()/2);
+		}
+	}
+	/** Updates the location of a sprite whilst ensuring it wraps around the game container
+	 *  relative to the position of the pusher it is riding with.
+     * @param x Value to assign the x location of sprite.
+     * @param pusher The object that is pushing the sprite object.
+     */
+	public void wrapXLocation(float x, Movable pusher) {
+		// Updates the location of obstacle to newly computed value or either end of game container
+		this.setXLocation(x);
+		if (x > 0 && x <= App.SCREEN_WIDTH) {
+			this.setXLocation(x);
+		}
+		// Sprite moving off right edge of screen will wrap to left edge according to pusher length
+		else if (x - pusher.spritePhoto.getWidth()/2 >= App.SCREEN_WIDTH) {
+			this.setXLocation(0.0f - pusher.spritePhoto.getWidth()/2);
+		}
+		//Sprite moving off left edge of screen will wrap to right edge according to pusher length
+		else if (x  + pusher.spritePhoto.getWidth()/2 <= 0.0f) {
+			this.setXLocation(App.SCREEN_WIDTH + pusher.spritePhoto.getWidth()/2);
 		}
 	}
 }

@@ -11,7 +11,7 @@ public class Movable extends Sprite{
      * @param rate Speed at which Movable object moves at.
      * @param x The x coordinate of object.
      * @param y The y coordinate of object.
-     * @param imageAddres The file path containing the image for the object.
+     * @param imageAddress The file path containing the image for the object.
      * @param moveRight A boolean which determines if object moves right or left.
      */
 	public Movable(float rate, float x, float y, String imageAddress, boolean moveRight) {
@@ -67,7 +67,14 @@ public class Movable extends Sprite{
 	public void pushSprite(int delta, Sprite sprite) {
 		// Moves the object along with the moving object it is riding/pushed by along with being wrapped
 		// around the game container like the moving object
-		sprite.wrapXLocation(sprite.getXLocation() + rate*delta*moveDirection(moveToRight));
+		sprite.wrapXLocation(sprite.getXLocation() + this.rate*delta*moveDirection(this.moveToRight));
 		sprite.getBoundingBox().setX(sprite.getXLocation());
 	}
+	public void pushExtra(int delta, Sprite sprite) {
+		// Moves the object along with the moving object it is riding/pushed by along with being wrapped
+		// around the game container like the moving object
+		sprite.wrapXLocation(sprite.getXLocation() + this.rate*delta*moveDirection(this.moveToRight), this);
+		sprite.getBoundingBox().setX(sprite.getXLocation());
+	}
+	
 }

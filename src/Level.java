@@ -20,7 +20,7 @@ public class Level {
 	// Timer 
 	private float myDelta = 0f;
 	
-	//private float destroyExtraLife = 2000;
+	// Time at which the extra life is to be removed
 	private float destroyExtraLife = 14000;
 	
 	/** All rendered images in level*/
@@ -33,6 +33,8 @@ public class Level {
 	Instruction levelInstructions;
 	
 	ExtraLife extraLife;
+	
+	FinalLocation finalLocation;
 	
 	/** Creates the level
      * @param instructionFileAddress file path name which contains level instructions.
@@ -54,6 +56,7 @@ public class Level {
 				sprites.add(movingObject);
 			}
 		}
+		finalLocation = new FinalLocation();
 		ExtraLife.initialiseSpawning(sprites);
 		sprites.add(player);
 		sprites.trimToSize();
@@ -87,7 +90,7 @@ public class Level {
 		
 		}
 		spawnExtraLife();
-		if (FinalLocation.isGapFilled(player, sprites) && FinalLocation.GAPS_TO_FILL <= 0) {
+		if (finalLocation.isGapFilled(player, sprites) && finalLocation.getGapsToFill() <= 0) {
 			isComplete = true;
 		}
 		player.isHit = false;

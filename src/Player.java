@@ -51,7 +51,7 @@ public class Player extends Sprite {
 		// Updates the location of the player, moving one tile in the selected direction
 		// whilst ensuring the update location is not outside the game container
 		
-		if (player.isPushed) {
+		if (player.isPushed && !edgeOfScreen(pusher)) {
 			pusher.pushSprite(delta, (Sprite)this);
 		}
 		
@@ -100,13 +100,15 @@ public class Player extends Sprite {
 		return false;
 	}
 	/** Attaches player to a movable object
+	 * @param pusher The object that is pushing the player.
      */
 	public void attachToPusher(Movable pusher) {
 		this.pusher = pusher;
 		this.isPushed = true;
-	}/** Removes player to a movable object
-     */
+	}
+	// Removes the pusher from the player so that the player no longer moves with the pusher
 	private void deattachToPusher(Movable pusher) {
+		System.out.println("deattach");
 		this.pusher = null;
 		this.isPushed = false;
 	}
@@ -145,6 +147,22 @@ public class Player extends Sprite {
 		isRightValid = true;
 		isUpValid = true;
 		isDownValid = true;
+	}
+	private boolean edgeOfScreen(Movable pusher) {
+		if (pusher.getName().equals("bulldozer")) {
+			if (this.getXLocation()-this.spritePhoto.getWidth()/2 >= App.SCREEN_WIDTH || this.getXLocation()  + this.spritePhoto.getWidth()/2 <= 0.0f && this.isPushed){
+				Life.loseLife(this);
+				return true;
+			}
+		}
+		else if (pusher.getName().equals("log") || pusher.getName().equals("turtle")) {
+			if (this.getXLocation()+this.spritePhoto.getWidth()/2 >= App.SCREEN_WIDTH || this.getXLocation()  - this.spritePhoto.getWidth()/2 <= 0.0f && this.isPushed){
+				this.setXLocation(this.getXLocation());
+				deattachToPusher(pusher);
+				return true;
+			}
+		}
+		return false;
 	}
 
 

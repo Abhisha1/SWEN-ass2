@@ -7,6 +7,7 @@ public class Turtle extends Rideable{
 	private static float rate = 0.085f;
 	private static boolean isPushable = true;
 	private static String imageAddress = "assets/turtles.png";
+	private static String name = "turtle";
 
 	
 	private float myDelta = 0f;
@@ -21,7 +22,7 @@ public class Turtle extends Rideable{
 	public Turtle(float x, float y, boolean moveRight) {
 		super(rate, x, y, imageAddress, moveRight);
 		this.setPushable(isPushable);
-		super.setName("TUTRLTE");
+		super.setName(name);
 	}
 	/** Update the game state for a movable object.
      * @param delta Time passed since last frame (milliseconds).

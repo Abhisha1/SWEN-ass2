@@ -30,6 +30,7 @@ public class ExtraLife extends Sprite{
 	 * @param sprites An array of sprites.
 	 * */
 	public ExtraLife(ArrayList<Sprite> sprites) {
+		// Creates the Extra Life object
 		super(imageAddress, 0f, 0f);
 		super.setName(name);
 		super.priority = Sprite.HIGH_PRIORITY;
@@ -65,7 +66,7 @@ public class ExtraLife extends Sprite{
 	 * */
 	public static void initialiseSpawning(ArrayList<Sprite> sprites) {
 		randomSeconds = (rand.nextInt(maxSeconds-minSeconds)+minSeconds)*1000;
-		nthLog = rand.nextInt(Log.getNumberOfLogs(sprites)-1);
+		nthLog = rand.nextInt(Log.getNumberOfLogs(sprites))+1;
 		
 	}
 	/** Returns the number of seconds at which the Extra Life object should be created at
@@ -81,7 +82,6 @@ public class ExtraLife extends Sprite{
 		selectLog(sprites);
 		this.setVisibility(false);
 		sprites.remove(this);
-		log = null;
 	}
 	
 	/** Update the game state for an extra life object.
@@ -92,28 +92,30 @@ public class ExtraLife extends Sprite{
 	public void update(Input input, int delta) {
 		// Update all of the sprites in the game
 		myDelta+=delta;
-		logDirectionTraversal();
-		if (myDelta >= moveOnLog) {
-			this.setXLocation(this.getXLocation() + Tile.TILE_SIZE*log.moveDirection(this.moveToRight));
+		// Checks whether the 2 seconds have passed and traverses the log by one tile
+		if (myDelta >= moveOnLog && !log.equals(null)) {
+			this.wrapXLocation(this.getXLocation() + Tile.TILE_SIZE*log.moveDirection(this.moveToRight), (Movable)log);
 			myDelta = 0f;
 		}
-		// Ensures the log and extra life obje
+		// Log pushes the extra life along
 		if (!log.equals(null) && !this.equals(null)) {
-			log.pushSprite(delta, (Sprite)this);
+			log.pushExtra(delta, (Sprite)this);
+			logDirectionTraversal();
 		}
 		
 	}
 	
 	private void logDirectionTraversal() {
-		// Determines which direction the extra life object is travelling on the log
-		System.out.format("box"+this.getBoundingBox().getRight()+"   "+log.getBoundingBox().getRight()+"\n");
-		if (this.getBoundingBox().getRight()+Tile.TILE_SIZE > log.getBoundingBox().getRight() && this.moveToRight) {
+		// Determines which direction the extra life object should move on the log without
+		// falling off the log
+		if (this.getBoundingBox().getRight() > log.getBoundingBox().getRight()) {
 			this.moveToRight = false;
 		}
-		else {
+		if (this.getBoundingBox().getLeft() < log.getBoundingBox().getLeft()) {
 			this.moveToRight = true;
 		}
 	}
+	
 	
 	
 	

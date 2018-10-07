@@ -22,8 +22,6 @@ public class World {
 	private Level level2;
 	
 	
-	/** Checks if game is completed */
-	private boolean gameWon = false;
 		
 	/** Creates world with a player and corresponding level
      */
@@ -51,14 +49,14 @@ public class World {
 	public void update(Input input, int delta, GameContainer gc) {
 		// Update all of the sprites in the game
 		player.update(input, delta, player);
-//		if (!level1.isComplete) {
-//			level1.update(input, delta, gc);
-//		}
-	//	else {
+		if (!level1.isComplete) {
+			level1.update(input, delta, gc);
+		}
+		else {
 			level2.update(input, delta, gc);
-	//	}
-		if (gameOver()) {
-		//	gc.exit();
+		}
+		if (gameOver() || level2.isComplete) {
+			gc.exit();
 		}
 		
 	}
@@ -69,12 +67,12 @@ public class World {
      */
 	public void render(Graphics g) {
 		// Draw all of the sprites in the game
-	//	if (!level1.isComplete) {
-	//		level1.render(g);
-	//	}
-		//else {
+		if (!level1.isComplete) {
+			level1.render(g);
+		}
+		else {
 			level2.render(g);
-		//}
+		}
 		for (Life a: player.getLives()) {
 			a.render();
 		}
@@ -83,7 +81,7 @@ public class World {
      * @param g The Slick graphics object, used for drawing.
      */
 	private boolean gameOver() {
-		if (player.getLives().isEmpty() || gameWon) {
+		if (player.getLives().isEmpty()) {
 			return true;
 		}
 		return false;
