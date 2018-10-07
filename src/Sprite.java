@@ -12,31 +12,34 @@ import utilities.BoundingBox;
 
 public class Sprite {
 	
-	/**Priority Ranking assigned for each sprite so that higher priority collisions are checked first*/
+	//Priority Ranking assigned for each sprite so that higher priority collisions are checked first
+	/**Sprites that are checked last if collided with*/
 	public static int LOW_PRIORITY = 0;
+	
+	/**Sprites that should be checked after high priority sprites*/
 	public static int MEDIUM_PRIORITY = 1;
+	
+	/**Sprites that should be checked if collided with*/
 	public static int HIGH_PRIORITY = 2;
 	
-	/** The x position of sprite*/
+	
 	private float xLocation;
 	
-	/**The y position of sprite*/
+	
 	private float yLocation;
 	
-	/**If object can be moved on top of*/
+	
 	private boolean isSolid = false;
 	
-	/**If touching this object results in player losing life*/
+	
 	private boolean isDanger = false;
 	
-	/**If touching this object causes player to move/ride with it*/
+	
 	private boolean isPushable = false;
 	
-	
-	/**Name of object*/
 	private String name = "sprite";
 	
-	/**bounding box for the sprite*/
+
 	private BoundingBox boundingBox;
 	
 	private boolean isVisible = true;
@@ -73,7 +76,6 @@ public class Sprite {
 		
 	}
 	/** Returns bounding box.
-     * @param a A drawable object in game.
      */
 	public BoundingBox getBoundingBox() {
 		//returns the bounding box via getter method
@@ -81,6 +83,7 @@ public class Sprite {
 	}
 	/** Checks if sprite has a bounding box.
      * @param box A box in which the sprite image is contained inside.
+     * @return Bounding Box
      */
 	public boolean hasBoundingBox(BoundingBox box) {
 		// checks if bounding box exists
@@ -108,16 +111,19 @@ public class Sprite {
 	public void contactSprite(Sprite other) {
 		// Should be called when one sprite makes contact with another. 
 		if (this.getBoundingBox().intersects(other.getBoundingBox())) {
-			Level.getExtraLife(other);
 			Level.isPushed(other);
+			Level.getExtraLife(other);
 			Level.isCollision(other);
 		}
 	}
+	/**Gets the x coordinate of sprite
+	 * @return x coordinate of sprite*/
 	public float getXLocation() {
 		// returns x coordinate
 		return this.xLocation;
 	}
-	
+	/**Gets the y coordinate of sprite
+	 * @return y coordinate of sprite*/
 	public float getYLocation() {
 		// returns y coordinate
 		return this.yLocation;
@@ -133,21 +139,29 @@ public class Sprite {
 	public void setDanger(boolean isDanger) {
 		this.isDanger = isDanger;
 	}
+	/**Gets the danger of the sprite/ whether collision with this sprite causes death
+	 * @return danger of sprite*/
 	public boolean getDanger() {
 		return this.isDanger;
 	}
 	public void setPushable(boolean isPushable) {
 		this.isPushable = isPushable;
 	}
+	/** Returns whether sprite can push another sprite
+	 * @return whether sprite can push other sprites*/
 	public boolean getPushable() {
 		return this.isPushable;
 	}
+	/** Returns whether the sprite can be moved onto
+	 * @return if solid*/
 	public boolean getSolid() {
 		return this.isSolid;
 	}
 	public void setVisibility(boolean visibility) {
 		this.isVisible = visibility;
 	}
+	/** Returns if the sprite is visible in the game countainer
+	 * @return sprite's visibility in game*/
 	public boolean getVisibility() {
 		return this.isVisible;
 	}
@@ -160,6 +174,8 @@ public class Sprite {
 		// sets y coordinate value
 			this.name = name;
 	}
+	/**Gets the sprite's name
+	 * @return name of sprite*/
 	public String getName() {
 		// sets y coordinate value
 			return this.name;
@@ -173,10 +189,11 @@ public class Sprite {
 		if (x > 0 && x <= App.SCREEN_WIDTH) {
 			this.setXLocation(x);
 		}
+		// Sprite moving off right end of screen
 		else if (x - this.spritePhoto.getWidth()/2 >= App.SCREEN_WIDTH) {
 			this.setXLocation(0.0f - this.spritePhoto.getWidth()/2);
 		}
-		
+		//Sprite moving off left end of screen
 		else if (x  + this.spritePhoto.getWidth()/2 <= 0.0f) {
 			this.setXLocation(App.SCREEN_WIDTH + this.spritePhoto.getWidth()/2);
 		}

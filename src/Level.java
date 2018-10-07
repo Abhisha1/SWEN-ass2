@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -19,10 +17,9 @@ public class Level {
 	private Tile tile;
 	private static Player player;
 	
-	/** Timer*/
+	// Timer 
 	private float myDelta = 0f;
-	/**Determines when extra life is created and destroyed*/
-	private float spawnExtraLife;
+	
 	//private float destroyExtraLife = 2000;
 	private float destroyExtraLife = 14000;
 	
