@@ -33,7 +33,7 @@ public class Bike extends Vehicle{
 		for (float a: REVERSE_LOCS) {
 			// Computes a buffer size distance which triggers the bike to change location
 			buffer = Math.abs(this.getXLocation()-a);
-			if (buffer <= delta*rate) {
+			if (buffer < delta*rate) {
 				this.currentDirection*= -1;
 			}
 		}
