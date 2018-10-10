@@ -11,8 +11,8 @@ public class Turtle extends Rideable{
 
 	
 	private float myDelta = 0f;
-	private float disappear = 7000f;
-	private float reappear = 9000f;
+	private float disappearMilliSecond = 7000f;
+	private float reappearMilliSecond = 9000f;
 	
 	/** Creates an object of class Turtle
 	 * @param x The x coordinate.
@@ -34,13 +34,13 @@ public class Turtle extends Rideable{
 		myDelta+= delta;
 		super.move(delta);
 		// turtle re emerges from water
-		if (myDelta >= reappear) {
+		if (myDelta >= reappearMilliSecond) {
 			super.setVisibility(true);
 			super.setDanger(false);
 			myDelta = 0;
 		}
 		// turtle disappears so player is no longer safe from water
-		else if (myDelta >= disappear) {
+		else if (myDelta >= disappearMilliSecond) {
 			super.setVisibility(false);
 			super.setDanger(true);
 		}

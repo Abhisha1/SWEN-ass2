@@ -10,8 +10,8 @@ public class ExtraLife extends Sprite{
 	private static int randomSeconds;
 	private static int nthLog;
 	
-	private static int maxSeconds = 35;
-	private static int minSeconds = 25;
+	private static int maxMilliSeconds = 35000;
+	private static int minMilliSeconds = 25000;
 	private static String name = "extra life";
 	private static String imageAddress = "assets/extralife.png";
 	
@@ -65,7 +65,7 @@ public class ExtraLife extends Sprite{
 	 * @param sprites An array of sprites.
 	 * */
 	public static void initialiseSpawning(ArrayList<Sprite> sprites) {
-		randomSeconds = (rand.nextInt(maxSeconds-minSeconds)+minSeconds)*1000;
+		randomSeconds = (rand.nextInt(maxMilliSeconds-minMilliSeconds)+minMilliSeconds);
 		nthLog = rand.nextInt(Log.getNumberOfLogs(sprites))+1;
 		
 	}

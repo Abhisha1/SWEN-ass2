@@ -41,7 +41,7 @@ public class Instruction {
      * @param objectInstructions An array of instructions in the format (name, x coordinate, y coordinate)
      * @return Tile
      */
-	public static Tile instructionParsedTile(String[] objectInstructions) {
+	public static Tile instructionParsedTile(String[] objectInstructions, ArrayList<Tile> trees) {
 		float xPos = Float.parseFloat(objectInstructions[1]);
 		float yPos = Float.parseFloat(objectInstructions[2]);
 		if (objectInstructions[0].equals("water")) {
@@ -52,7 +52,9 @@ public class Instruction {
 		}
 		else {
 			FinalLocation.setYPos(yPos);
-			return Tile.createTreeTile(xPos, yPos);
+			Tile tree = Tile.createTreeTile(xPos, yPos);
+			trees.add(tree);
+			return tree;
 		}
 	}
 	/** Reads the a line of instructions for moving objects and builds the respective movable

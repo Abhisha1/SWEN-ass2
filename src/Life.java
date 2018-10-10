@@ -50,7 +50,6 @@ public class Life extends Sprite{
 	public static void gainLife() {
 		livesCount++;
 		playerLives.add(new Life(XPos, YPos));
-		System.out.println("got a ilife");
 		XPos += pixelSize;
 	}
 }

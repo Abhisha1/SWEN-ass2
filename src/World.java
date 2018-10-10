@@ -15,11 +15,13 @@ public class World {
 	/** Game player*/
 	private Player player;
 	
+	private static final int MAX_LEVELS = 2;
+	
 	/** First game level */
-	private Level level1;
+	private Level level;
 	
 	/** Second game level */
-	private Level level2;
+	private int levelsPassed = 1;
 	
 	
 		
@@ -27,8 +29,7 @@ public class World {
      */
 	public World() {
 		buildPlayer();
-		level1 = new Level("assets/levels/0.lvl", player);
-		level2 = new Level("assets/levels/1.lvl", player);
+		level = new Level("assets/levels/0.lvl", player);
 	}
 	
 
@@ -49,13 +50,12 @@ public class World {
 	public void update(Input input, int delta, GameContainer gc) {
 		// Update all of the sprites in the game
 		player.update(input, delta, player);
-		if (!level1.isComplete) {
-			level1.update(input, delta, gc);
+		level.update(input, delta, gc);
+		if (level.isComplete && levelsPassed < MAX_LEVELS) {
+			levelsPassed++;
+			level = new Level("assets/levels/1.lvl", player);
 		}
-		else {
-			level2.update(input, delta, gc);
-		}
-		if (gameOver() || level2.isComplete) {
+		if (gameOver() || (level.isComplete && levelsPassed == MAX_LEVELS)) {
 			gc.exit();
 		}
 		
@@ -67,12 +67,7 @@ public class World {
      */
 	public void render(Graphics g) {
 		// Draw all of the sprites in the game
-		if (!level1.isComplete) {
-			level1.render(g);
-		}
-		else {
-			level2.render(g);
-		}
+		level.render(g);
 		for (Life a: player.getLives()) {
 			a.render();
 		}

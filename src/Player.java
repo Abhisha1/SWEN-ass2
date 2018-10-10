@@ -96,9 +96,7 @@ public class Player extends Sprite {
 		this.setYLocation(initialYPos);
 	}
 	
-	private boolean reachedFinalLocation(Sprite a) {
-		return false;
-	}
+	
 	/** Attaches player to a movable object
 	 * @param pusher The object that is pushing the player.
      */
@@ -108,7 +106,6 @@ public class Player extends Sprite {
 	}
 	// Removes the pusher from the player so that the player no longer moves with the pusher
 	private void deattachToPusher(Movable pusher) {
-		System.out.println("deattach");
 		this.pusher = null;
 		this.isPushed = false;
 	}

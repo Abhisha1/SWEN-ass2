@@ -21,7 +21,7 @@ public class Level {
 	private float myDelta = 0f;
 	
 	// Time at which the extra life is to be removed
-	private float destroyExtraLife = 14000;
+	private float destroyExtraLifeMilliSec = 14000;
 	
 	/** All rendered images in level*/
 	ArrayList<Sprite> sprites = new ArrayList<Sprite>();
@@ -41,12 +41,12 @@ public class Level {
      * @param player Game player.
      */
 	public Level(String instructionFileAddress, Player player) {
+		ArrayList<Tile> finalTrees = new ArrayList<Tile>();
 		this.player = player;
 		this.levelInstructions = new Instruction(instructionFileAddress);
 		for (String[] a: levelInstructions.getInstructions()) {
-			//System.out.println(Arrays.toString(a));
 			if (Tile.isTile(a[0])){
-				tile = Instruction.instructionParsedTile(a);
+				tile = Instruction.instructionParsedTile(a, finalTrees);
 				tile.createBoundingBox(tile);
 				sprites.add(tile);
 			}
@@ -57,6 +57,7 @@ public class Level {
 			}
 		}
 		finalLocation = new FinalLocation();
+		finalLocation.readTrees(finalTrees);
 		ExtraLife.initialiseSpawning(sprites);
 		sprites.add(player);
 		sprites.trimToSize();
@@ -150,17 +151,14 @@ public class Level {
 	}
 	// Creates Extra Life objects at random time intervals as defined by the game spec.
 	private void spawnExtraLife() {
-		if ((myDelta >= ExtraLife.spawnTimeExtraLife()+destroyExtraLife) || player.gotExtraLife) {
-			System.out.println("reset");
+		if ((myDelta >= ExtraLife.spawnTimeExtraLife()+destroyExtraLifeMilliSec) || player.gotExtraLife) {
 			extraLife.removeExtraLife(sprites);
 			extraLife = null;
 			myDelta = 0f;
 			ExtraLife.initialiseSpawning(sprites);
-			System.out.format(ExtraLife.spawnTimeExtraLife()+"\n");
 			player.gotExtraLife = false;
 		}
 		if (myDelta >= ExtraLife.spawnTimeExtraLife() && extraLife == null) {
-			System.out.println("make new");
 			extraLife = new ExtraLife(sprites);
 			sprites.add(extraLife);
 		}
